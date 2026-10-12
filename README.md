@@ -8,15 +8,6 @@ Mars exploration requires careful consideration of terrain, location, and scient
 
 This project is being developed as part of NASA Space Apps Challenge 2026.
 
-## Current Features
-
-- Interactive web interface built with Streamlit.
-- Tabular display of exploration targets.
-- Filtering targets using a minimum science-value threshold.
-- Python-based data handling and visualization setup.
-
-**Note:** The current prototype uses fictional sample targets for demonstration. These are not real Martian locations or validated scientific measurements.
-
 ## Tech Stack
 
 - Python
