@@ -1,0 +1,5 @@
+
+dataset_id,product_name,mission,instrument,data_type,region,resolution,observation_date,format,source_url,local_path,status,notes
+JZ-001,Jezero controlled HiRISE mosaic,Mars Reconnaissance Orbiter,HiRISE,Surface imagery,Jezero Crater,Approx 0.25 m per pixel,Unknown,Remote map layer,https://trek.nasa.gov/tiles/apidoc/trekAPI.html?body=mars,,To investigate,Confirm metadata coverage and access method
+JZ-002,Matching Jezero elevation model,Mars Reconnaissance Orbiter,HiRISE,Elevation,Jezero Crater,Unknown,Unknown,Unknown,https://stac.astrogeology.usgs.gov/docs/data/mars/hirise_dtms/,,Not selected,Find a product covering our study area
+JZ-003,Relevant rover science observations,Mars 2020,To be selected,Science observations,Jezero Crater,Varies,Unknown,To be selected,https://pds.nasa.gov/,,Not selected,Identify observations and their coordinates

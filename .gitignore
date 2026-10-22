@@ -1,4 +1,21 @@
-.venv/
+# Python
 __pycache__/
-*.pyc
+*.py[cod]
+.venv/
+venv/
+
+# Environment variables and secrets
 .env
+.env.*
+
+# Large raw science data
+data/raw/*
+!data/raw/.gitkeep
+
+# Generated processed files
+data/processed/*
+!data/processed/.gitkeep
+
+# Keep folders in Git
+!data/raw/.gitkeep
+!data/processed/.gitkeep
