@@ -84,4 +84,4 @@ The application will be available locally at `http://localhost:8501`.
 
 ## Team
 
-Developed by a two-member
+Developed by a two-member team
