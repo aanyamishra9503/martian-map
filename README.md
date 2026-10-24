@@ -16,6 +16,7 @@ This project is being developed as part of NASA Space Apps Challenge 2026.
 - NumPy
 - Matplotlib
 - Git and GitHub
+- Rasterio
 
 ## Project Structure
 
