@@ -1,0 +1,1 @@
+'''The CTX index is where we discovered the files; USGS provided the products and metadata; PDS is the underlying planetary-data archive; and the 1.84 GB HiRISE dataset is a potential higher-resolution resource for later, not a requirement for the current stage.'''
