@@ -389,5 +389,3 @@ def export_elevation_coordinates(
             writer.writerows(output_rows)
 
     print(f"Saved {len(output_rows)} samples to {output_csv}")
-
-
