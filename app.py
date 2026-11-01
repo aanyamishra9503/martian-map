@@ -264,6 +264,132 @@ except Exception as e:
     st.error(f"Could not calculate the slope map: {e}")
 
 
+
+st.subheader("Jezero Crater — Daytime Thermal Explorer")
+
+try:
+    themis_path = "data/raw/jezero_themis_day_ir.tif"
+    mars_radius = 3396190
+
+    with rasterio.open(themis_path) as src:
+
+        # Read the infrared raster
+        day_ir = src.read(1).astype(float)
+
+        # Get the geographic position of every pixel
+        width = src.width
+        height = src.height
+
+        longitude = (
+            (src.bounds.left +
+             (np.arange(width) + 0.5) * src.res[0])
+            / mars_radius
+        ) * (180 / np.pi) + 180
+
+        latitude = (
+            (src.bounds.bottom +
+             (np.arange(height) + 0.5) * src.res[1])
+            * (180 / np.pi) / mars_radius
+        )
+
+        # Flip vertically so southern latitudes appear at the bottom
+        day_ir = np.flipud(day_ir)
+
+        # Exclude NoData pixels
+        day_ir[day_ir == 0] = np.nan
+
+    # Calculate basic statistics
+    valid_values = day_ir[np.isfinite(day_ir)]
+
+    st.write(
+        "Explore the infrared signal recorded across "
+        "the Jezero region."
+    )
+
+    col1, col2, col3 = st.columns(3)
+
+    col1.metric("Valid pixels", f"{len(valid_values):,}")
+    col2.metric("Lowest signal", f"{valid_values.min():.0f}")
+    col3.metric("Highest signal", f"{valid_values.max():.0f}")
+
+    # Display controls
+    palette = st.selectbox(
+        "Choose colour palette",
+        ["Gray", "Inferno", "Viridis"]
+    )
+
+    contrast = st.slider(
+        "Adjust image contrast",
+        min_value=1,
+        max_value=255,
+        value=(1, 255)
+    )
+
+    # Interactive infrared map
+    fig_themis = go.Figure(
+        data=go.Heatmap(
+            x=longitude,
+            y=latitude,
+            z=day_ir,
+            colorscale=palette,
+            zmin=contrast[0],
+            zmax=contrast[1],
+            colorbar={
+                "title": "IR signal",
+                "tickmode": "auto"
+            },
+            hovertemplate=(
+                "Longitude: %{x:.3f}°E<br>"
+                "Latitude: %{y:.3f}°N<br>"
+                "Infrared signal: %{z:.0f}"
+                "<extra></extra>"
+            )
+        )
+    )
+
+    fig_themis.update_layout(
+        xaxis_title="Longitude (°E)",
+        yaxis_title="Planetocentric latitude (°N)",
+        height=650,
+        margin={"l": 20, "r": 20, "t": 30, "b": 20}
+    )
+
+    st.plotly_chart(
+        fig_themis,
+        width="stretch",
+        config={"scrollZoom": True}
+    )
+
+    # Pixel value distribution
+    st.subheader("Infrared Signal Distribution")
+
+    fig_hist = go.Figure(
+        data=go.Histogram(
+            x=valid_values,
+            nbinsx=40
+        )
+    )
+
+    fig_hist.update_layout(
+        xaxis_title="8-bit infrared signal value",
+        yaxis_title="Number of pixels",
+        height=350
+    )
+
+    st.plotly_chart(fig_hist, width="stretch")
+
+    st.caption(
+        "Source: USGS Astrogeology THEMIS Day IR Controlled Mosaic. "
+        "Band 9, approximately 12.57 µm, 100 m/pixel. "
+        "Values are qualitative 8-bit infrared image values, "
+        "not calibrated surface temperatures."
+    )
+
+except Exception as e:
+    st.error(f"Could not load the THEMIS explorer: {e}")
+
+# This themis image isnt just an image but a rastor that contains geospatial information, in the form of a grid of numerical pixel values. The THEMIS image is a single-band raster, meaning it contains only one layer of data, which corresponds to the infrared intensity. The pixel values are stored as 8-bit unsigned integers, ranging from 0 to 255, where higher values indicate stronger infrared emissions.
+
 st.subheader("Exploration Targets — Demonstration Data")
 
 st.warning(
